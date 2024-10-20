@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+option csharp_namespace = "EpcDataApp.GrpcService";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+package epcdata;
+
+message WagonRequest{
+	google.protobuf.Timestamp time_start = 1;
+	google.protobuf.Timestamp time_end = 2;
+}
+
+message WagonListResponse{
+	repeated WagonResponse Wagons = 1;
+}
+
+message WagonResponse{
+	string number = 1;
+	google.protobuf.StringValue time_arrival = 2;
+	google.protobuf.StringValue time_departure = 3;
+}
+
+
+message PathRequest{
+	string number_epc = 1;
+	int32 type_epc = 2;
+}
+message PathResponse{
+	int32 id_path = 1;
+	string asu_number_path = 2;
+	int32 id_park = 3;
+	string name_park = 4;
+	string asu_number_park = 5;
+	string type_park = 6;
+	string direction_park = 7;
+
+}
+message PathListResponse{
+	repeated PathResponse Paths = 1;
+}
+
+service EpcData{
+  rpc GetWagons(WagonRequest) returns (WagonListResponse);
+  rpc GetPathListCrossMoveEpc(PathRequest) returns (PathListResponse);
+}
+
