@@ -32,7 +32,7 @@ async Task StartProgram()
     {
         Helpers.PrintMenu();
         bool status = true;
-        switch (Convert.ToInt16(Console.ReadLine()))
+        switch (Convert.ToInt64(Console.ReadLine()))
         {
             case 1:
                 status = true;
