@@ -25,7 +25,6 @@ message WagonResponse{
 
 message PathRequest{
 	string number_epc = 1;
-	int32 type_epc = 2;
 }
 message PathResponse{
 	int32 id_path = 1;

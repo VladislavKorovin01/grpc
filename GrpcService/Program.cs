@@ -11,6 +11,6 @@ builder.Services.AddDbContext<TestDbContext>(options => options.UseNpgsql(connec
 var app = builder.Build();
 
 app.MapGrpcService<EpcDataService>();
-app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client.");
+app.MapGet("/", () => "ƒл€ работы с этим приложением перейдите в клиент!");
 
 app.Run();

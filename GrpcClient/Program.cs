@@ -6,29 +6,28 @@ using Grpc.Core;
 
 Console.Title = "EpcDataApp";
 
-try
+while (true)
 {
-    await StartProgram();
+    try
+    {
+        await StartProgram();
+    }
+    catch (RpcException ex)
+    {
+        Helpers.DisplayError(ex.Status.Detail);
+    }
+    catch (Exception ex)
+    {
+        Helpers.DisplayError(ex.Message);
+    }
 }
-catch (RpcException ex)
-{
-    Helpers.DisplayError(ex.Status.Detail);
-    await StartProgram();
-}
-catch (Exception ex)
-{
-    Helpers.DisplayError(ex.Message);
-    await StartProgram();
-}
-finally
-{
-    Environment.Exit(0);
-}
+
 
 async Task StartProgram()
 {
     using var chanell = GrpcChannel.ForAddress("https://localhost:7082");
     var client = new EpcData.EpcDataClient(chanell);
+
     while (true)
     {
         Helpers.PrintMenu();
@@ -75,6 +74,7 @@ async Task StartProgram()
                                 else
                                 {
                                     var table = new ConsoleTable(new string[] { "№", "Инвентарный номер вагона", "Время прибытия", "Время отправления" });
+
                                     foreach (var wagon in result.Wagons)
                                     {
                                         table.AddRow(result.Wagons.IndexOf(wagon) + 1, wagon.Number, wagon.TimeArrival, wagon.TimeDeparture);
@@ -97,7 +97,7 @@ async Task StartProgram()
                     {
                         Console.WriteLine("Значение не валидно, номер не может быть пустым");
                     }
-                    else if (inputNumber.All(i => char.IsLetter(i) || char.IsWhiteSpace(i)))
+                    else if (inputNumber.All(i => !char.IsDigit(i)))
                     {
                         Console.WriteLine("Значение не валидно, номер не может содержать буквы и пробелы");
                     }
@@ -105,12 +105,11 @@ async Task StartProgram()
                     {
                         var result = await client.GetPathListCrossMoveEpcAsync(new PathRequest()
                         {
-                            NumberEpc = inputNumber,
-                            TypeEpc = 1
+                            NumberEpc = inputNumber
                         });
                         if (result.Paths.Count > 0)
                         {
-                            var table = new ConsoleTable(new string[] { "IdPath", "AsuNumberPath", "IdPark", "NamePark", "AsuNumberPark", "TypePark", "DirectionPark" });
+                            var table = new ConsoleTable(new string[] { "Id пути", "Номер пути во внешней системе", "Id парка", "Название парка", "Номер парка во внешней системе", "Тип парка", "Направление движения" });
                             foreach (var path in result.Paths)
                             {
                                 table.AddRow(new object[] { path.IdPath, path.AsuNumberPath, path.IdPark, path.NamePark, path.AsuNumberPark, path.TypePark, path.DirectionPark });
