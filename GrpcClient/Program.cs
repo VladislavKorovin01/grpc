@@ -39,25 +39,25 @@ async Task StartProgram()
                 Console.WriteLine("Полуение данных о вагонах за период времени");
                 while (status)
                 {
-                    Console.WriteLine("Введите начальную дату и время в формате(dd.mm.yyyy hh:mm:ss) ");
+                    Helpers.DisplayInvite("Введите начальную дату и время в формате(dd.mm.yyyy hh:mm:ss) ");
                     var inputDateTimeStart = Console.ReadLine();
                     if (!DateTime.TryParse(inputDateTimeStart, out DateTime InputDateTimeStart))
                     {
-                        Console.WriteLine("значение не валидно");
+                        Helpers.DisplayError("Значение не валидно!");
                     }
                     else
                     {
                         while (status)
                         {
-                            Console.WriteLine("введите конечную дату в формате(dd.mm.yyyy hh:mm:ss) ");
+                            Helpers.DisplayInvite("Введите конечную дату в формате(dd.mm.yyyy hh:mm:ss) ");
                             var inputDateTimeEnd = Console.ReadLine();
                             if (!DateTime.TryParse(inputDateTimeEnd, out DateTime InputDateTimeEnd))
                             {
-                                Console.WriteLine("значение не валидно");
+                                Helpers.DisplayError("Значение не валидно!");
                             }
                             else if (InputDateTimeStart > InputDateTimeEnd)
                             {
-                                Console.WriteLine("Значение не валидно, конечная дата не может быть меньше начальной");
+                                Helpers.DisplayError("Значение не валидно, конечная дата не может быть меньше начальной!");
                             }
                             else
                             {
@@ -69,7 +69,7 @@ async Task StartProgram()
 
                                 if (result.Wagons.Count == 0)
                                 {
-                                    Console.WriteLine("За указанный период данные о вагонах отсутствуют!!!");
+                                    Helpers.DisplayError("За указанный период данные о вагонах отсутствуют!!!");
                                 }
                                 else
                                 {
@@ -91,15 +91,15 @@ async Task StartProgram()
                 status = true;
                 while (status)
                 {
-                    Console.WriteLine("Введите инвентарный номер вагона:");
+                    Helpers.DisplayInvite("Введите инвентарный номер вагона:");
                     var inputNumber = Console.ReadLine();
                     if (string.IsNullOrEmpty(inputNumber))
                     {
-                        Console.WriteLine("Значение не валидно, номер не может быть пустым");
+                        Helpers.DisplayError("Значение не валидно, номер не может быть пустым!");
                     }
                     else if (inputNumber.All(i => !char.IsDigit(i)))
                     {
-                        Console.WriteLine("Значение не валидно, номер не может содержать буквы и пробелы");
+                        Helpers.DisplayError("Значение не валидно, номер не может содержать буквы и пробелы!");
                     }
                     else
                     {
@@ -119,7 +119,7 @@ async Task StartProgram()
                         }
                         else
                         {
-                            Console.WriteLine("Данных с запрашиваемыми параметрами нет!!!");
+                            Helpers.DisplayError("Данных с запрашиваемыми параметрами нет!!!");
                             status = false;
                         }
                     }
@@ -129,7 +129,7 @@ async Task StartProgram()
                 Environment.Exit(0);
                 break;
             default:
-                Console.WriteLine("Выберите пункт из меню!!!");
+                Helpers.DisplayError("Выберите пункт из меню!!!");
                 break;
         }
     }

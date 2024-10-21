@@ -8,7 +8,7 @@ namespace EpcDataApp.GrpcClient
             var actions = new string[] 
             {
                 "1) Получение списка вагонов с данными",
-                "2) Вывести информацию о всех путях, на которых находился вагон за период пребывания на станции",
+                "2) Вывести информацию о всех путях, на которых находился вагон за период прибывания на станции",
                 "3) Выйти из приложения"
             };
             Console.WriteLine("Выбрите действие:");
@@ -25,16 +25,17 @@ namespace EpcDataApp.GrpcClient
             Console.WriteLine(messageError);
             ResetConsoleDisplayError();
         }
-        private static void SetConsoleDisplayError()
+        private static void SetConsoleDisplayError()=> Console.ForegroundColor = ConsoleColor.DarkRed;
+        private static void ResetConsoleDisplayError()=> Console.ForegroundColor = ConsoleColor.White;
+
+        internal static void DisplayInvite(string messageInvite)
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            //Console.BackgroundColor = ConsoleColor.White;
+            SetConsoleDisplayInvite();
+            Console.WriteLine(messageInvite);
+            ResetConsoleDisplayInvite();
         }
-        private static void ResetConsoleDisplayError()
-        {
-            Console.ForegroundColor = ConsoleColor.White;
-            //Console.BackgroundColor = ConsoleColor.Black;
-        }
+        private static void SetConsoleDisplayInvite() => Console.ForegroundColor = ConsoleColor.DarkGreen;
+        private static void ResetConsoleDisplayInvite() => Console.ForegroundColor = ConsoleColor.White;
 
     }
 }
